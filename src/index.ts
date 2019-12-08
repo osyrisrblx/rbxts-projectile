@@ -4,7 +4,7 @@ const terrain = Workspace.Terrain;
 
 const raycastIgnore = Workspace.FindFirstChild("Ignore");
 
-type ParticleConfig = Partial<{
+type ProjectileConfig = Partial<{
 	bounce: boolean;
 	canCollide: boolean;
 	color: Color3;
@@ -23,9 +23,9 @@ const globalPhysicsIgnore = new Array<Instance>();
 if (raycastIgnore) {
 	globalPhysicsIgnore.push(raycastIgnore);
 }
-const removeList = new Set<Particle>();
+const removeList = new Set<Projectile>();
 const lines = new Array<CylinderHandleAdornment>();
-const particles = new Array<Particle>();
+const particles = new Array<Projectile>();
 
 function getLine(color: Color3) {
 	const line = lines.pop() || new Instance("CylinderHandleAdornment");
@@ -36,7 +36,7 @@ function getLine(color: Color3) {
 	return line;
 }
 
-export class Particle {
+export class Projectile {
 	public lifeTime: number;
 	public line: CylinderHandleAdornment;
 
@@ -77,7 +77,7 @@ export class Particle {
 		physicsIgnore = [],
 		penetration = false,
 		resistance = 1,
-	}: ParticleConfig) {
+	}: ProjectileConfig) {
 		this.bounce = bounce;
 		this.canCollide = canCollide;
 		this.color = color;
