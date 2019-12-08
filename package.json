@@ -1,0 +1,37 @@
+{
+  "name": "@rbxts/projectile",
+  "version": "1.0.0",
+  "description": "",
+  "main": "out/init.lua",
+  "scripts": {
+    "prepublishOnly": "rbxtsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/osyrisrblx/rbxts-projectile.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/osyrisrblx/rbxts-projectile/issues"
+  },
+  "homepage": "https://github.com/osyrisrblx/rbxts-projectile#readme",
+  "publishConfig": {
+    "access": "public"
+  },
+  "types": "out/index.d.ts",
+  "devDependencies": {
+    "@rbxts/types": "^1.0.312",
+    "@typescript-eslint/eslint-plugin": "^2.10.0",
+    "@typescript-eslint/parser": "^2.10.0",
+    "eslint": "^6.7.2",
+    "eslint-config-prettier": "^6.7.0",
+    "eslint-plugin-prettier": "^3.1.1",
+    "eslint-plugin-roblox-ts": "0.0.8",
+    "prettier": "^1.19.1"
+  },
+  "dependencies": {
+    "@rbxts/services": "^1.0.3"
+  }
+}
