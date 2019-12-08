@@ -1,5 +1,5 @@
 -- Compiled with https://roblox-ts.github.io v0.2.14
--- December 7, 2019, 5:55 PM Pacific Standard Time
+-- December 7, 2019, 6:16 PM Pacific Standard Time
 
 local TS = _G[script];
 local exports = {};
@@ -39,6 +39,9 @@ do
 		return self;
 	end;
 	function Projectile:constructor(_1)
+		local position = _1.position;
+		local velocity = _1.velocity;
+		local acceleration = _1.acceleration;
 		local bounce = _1.bounce;
 		if bounce == nil then bounce = false; end;
 		local canCollide = _1.canCollide;
@@ -51,13 +54,13 @@ do
 		if maxRange == nil then maxRange = 5000; end;
 		local minExitVelocity = _1.minExitVelocity;
 		if minExitVelocity == nil then minExitVelocity = 100; end;
-		local onTouch = _1.onTouch;
 		local physicsIgnore = _1.physicsIgnore;
 		if physicsIgnore == nil then physicsIgnore = {}; end;
 		local penetration = _1.penetration;
 		if penetration == nil then penetration = false; end;
 		local resistance = _1.resistance;
 		if resistance == nil then resistance = 1; end;
+		local onTouch = _1.onTouch;
 		self.px = 0;
 		self.py = 0;
 		self.pz = 0;
@@ -69,6 +72,21 @@ do
 		self.az = 0;
 		self.distanceSq = 0;
 		self.wasRendered = true;
+		if position then
+			self.px = position.X;
+			self.py = position.Y;
+			self.pz = position.Z;
+		end;
+		if velocity then
+			self.vx = velocity.X;
+			self.vy = velocity.Y;
+			self.vz = velocity.Z;
+		end;
+		if acceleration then
+			self.ax = acceleration.X;
+			self.ay = acceleration.Y;
+			self.az = acceleration.Z;
+		end;
 		self.bounce = bounce;
 		self.canCollide = canCollide;
 		self.color = color;
