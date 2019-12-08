@@ -1,9 +1,9 @@
 -- Compiled with https://roblox-ts.github.io v0.2.14
--- December 7, 2019, 5:34 PM Pacific Standard Time
+-- December 7, 2019, 5:55 PM Pacific Standard Time
 
 local TS = _G[script];
 local exports = {};
-local Particle;
+local Projectile;
 local _0 = TS.import(script, TS.getModule(script, "services"));
 local Workspace, RunService = _0.Workspace, _0.RunService;
 local terrain = Workspace.Terrain;
@@ -29,16 +29,16 @@ local function getLine(color)
 	return line;
 end;
 do
-	Particle = setmetatable({}, {
-		__tostring = function() return "Particle" end;
+	Projectile = setmetatable({}, {
+		__tostring = function() return "Projectile" end;
 	});
-	Particle.__index = Particle;
-	function Particle.new(...)
-		local self = setmetatable({}, Particle);
+	Projectile.__index = Projectile;
+	function Projectile.new(...)
+		local self = setmetatable({}, Projectile);
 		self:constructor(...);
 		return self;
 	end;
-	function Particle:constructor(_1)
+	function Projectile:constructor(_1)
 		local bounce = _1.bounce;
 		if bounce == nil then bounce = false; end;
 		local canCollide = _1.canCollide;
@@ -83,7 +83,7 @@ do
 		particles[#particles + 1] = self;
 	end;
 	-- static methods
-	function Particle:addToPhysicsIgnore(object)
+	function Projectile:addToPhysicsIgnore(object)
 		for _1 = 1, #globalPhysicsIgnore do
 			local v = globalPhysicsIgnore[_1];
 			if v == object then
@@ -101,7 +101,7 @@ do
 		end);
 	end;
 	-- instance methods
-	function Particle:step(dt)
+	function Projectile:step(dt)
 		local physicsIgnore = self.physicsIgnore;
 		local qx = self.px;
 		local qy = self.py;
@@ -196,7 +196,7 @@ do
 			end;
 		end;
 	end;
-	function Particle:remove()
+	function Projectile:remove()
 		removeList[self] = true;
 	end;
 end;
@@ -213,14 +213,14 @@ RunService.RenderStepped:Connect(function(dt)
 				lines[#lines + 1] = p.line;
 				removeList[p] = nil;
 			else
-				p:step(dt);
 				local _1 = j;
 				j = _1 + 1;
 				particles[_1 + 1] = p;
+				p:step(dt);
 			end;
 			i = i + 1;
 		end;
 	end;
 end);
-exports.Particle = Particle;
+exports.Projectile = Projectile;
 return exports;

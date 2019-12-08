@@ -1,5 +1,5 @@
 /// <reference types="@rbxts/types" />
-declare type ParticleConfig = Partial<{
+declare type ProjectileConfig = Partial<{
     bounce: boolean;
     canCollide: boolean;
     color: Color3;
@@ -11,7 +11,7 @@ declare type ParticleConfig = Partial<{
     resistance: number;
     onTouch: (part: BasePart, position: Vector3, normal: Vector3) => void;
 }>;
-export declare class Particle {
+export declare class Projectile {
     lifeTime: number;
     line: CylinderHandleAdornment;
     private px;
@@ -34,7 +34,7 @@ export declare class Particle {
     private physicsIgnore;
     private resistance;
     private onTouch?;
-    constructor({ bounce, canCollide, color, life, maxRange, minExitVelocity, onTouch, physicsIgnore, penetration, resistance, }: ParticleConfig);
+    constructor({ bounce, canCollide, color, life, maxRange, minExitVelocity, onTouch, physicsIgnore, penetration, resistance, }: ProjectileConfig);
     static addToPhysicsIgnore(object: Instance): void;
     step(dt: number): void;
     remove(): void;
