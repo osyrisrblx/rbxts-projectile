@@ -1,11 +1,10 @@
 -- Compiled with https://roblox-ts.github.io v0.2.14
--- December 7, 2019, 6:16 PM Pacific Standard Time
+-- December 7, 2019, 6:50 PM Pacific Standard Time
 
 local TS = _G[script];
 local exports = {};
 local Projectile;
-local _0 = TS.import(script, TS.getModule(script, "services"));
-local Workspace, RunService = _0.Workspace, _0.RunService;
+local Workspace = TS.import(script, TS.getModule(script, "services")).Workspace;
 local terrain = Workspace.Terrain;
 local raycastIgnore = Workspace:FindFirstChild("Ignore");
 local elapsedTime = 0;
@@ -17,11 +16,11 @@ local removeList = {};
 local lines = {};
 local particles = {};
 local function getLine(color)
-	local _1 = #lines;
-	local _2 = lines[_1];
-	lines[_1] = nil; -- lines.pop
-	local _3 = _2;
-	local line = _3 or Instance.new("CylinderHandleAdornment");
+	local _0 = #lines;
+	local _1 = lines[_0];
+	lines[_0] = nil; -- lines.pop
+	local _2 = _1;
+	local line = _2 or Instance.new("CylinderHandleAdornment");
 	line.Parent = terrain;
 	line.Adornee = terrain;
 	line.Color3 = color;
@@ -38,29 +37,29 @@ do
 		self:constructor(...);
 		return self;
 	end;
-	function Projectile:constructor(_1)
-		local position = _1.position;
-		local velocity = _1.velocity;
-		local acceleration = _1.acceleration;
-		local bounce = _1.bounce;
+	function Projectile:constructor(_0)
+		local position = _0.position;
+		local velocity = _0.velocity;
+		local acceleration = _0.acceleration;
+		local bounce = _0.bounce;
 		if bounce == nil then bounce = false; end;
-		local canCollide = _1.canCollide;
+		local canCollide = _0.canCollide;
 		if canCollide == nil then canCollide = false; end;
-		local color = _1.color;
+		local color = _0.color;
 		if color == nil then color = Color3.new(1, 1, 1); end;
-		local life = _1.life;
+		local life = _0.life;
 		if life == nil then life = 2; end;
-		local maxRange = _1.maxRange;
+		local maxRange = _0.maxRange;
 		if maxRange == nil then maxRange = 5000; end;
-		local minExitVelocity = _1.minExitVelocity;
+		local minExitVelocity = _0.minExitVelocity;
 		if minExitVelocity == nil then minExitVelocity = 100; end;
-		local physicsIgnore = _1.physicsIgnore;
+		local physicsIgnore = _0.physicsIgnore;
 		if physicsIgnore == nil then physicsIgnore = {}; end;
-		local penetration = _1.penetration;
+		local penetration = _0.penetration;
 		if penetration == nil then penetration = false; end;
-		local resistance = _1.resistance;
+		local resistance = _0.resistance;
 		if resistance == nil then resistance = 1; end;
-		local onTouch = _1.onTouch;
+		local onTouch = _0.onTouch;
 		self.px = 0;
 		self.py = 0;
 		self.pz = 0;
@@ -102,8 +101,8 @@ do
 	end;
 	-- static methods
 	function Projectile:addToPhysicsIgnore(object)
-		for _1 = 1, #globalPhysicsIgnore do
-			local v = globalPhysicsIgnore[_1];
+		for _0 = 1, #globalPhysicsIgnore do
+			local v = globalPhysicsIgnore[_0];
 			if v == object then
 				return nil;
 			end;
@@ -218,7 +217,7 @@ do
 		removeList[self] = true;
 	end;
 end;
-RunService.RenderStepped:Connect(function(dt)
+local function update(dt)
 	elapsedTime = elapsedTime + (dt);
 	local j = 0;
 	do
@@ -231,14 +230,20 @@ RunService.RenderStepped:Connect(function(dt)
 				lines[#lines + 1] = p.line;
 				removeList[p] = nil;
 			else
-				local _1 = j;
-				j = _1 + 1;
-				particles[_1 + 1] = p;
+				local _0 = j;
+				j = _0 + 1;
+				particles[_0 + 1] = p;
 				p:step(dt);
 			end;
 			i = i + 1;
 		end;
 	end;
-end);
+end;
+coroutine.wrap(function()
+	while true do
+		wait(1);
+		update(1);
+	end;
+end)();
 exports.Projectile = Projectile;
 return exports;

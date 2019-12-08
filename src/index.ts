@@ -268,7 +268,7 @@ export class Projectile {
 	}
 }
 
-RunService.RenderStepped.Connect(dt => {
+function update(dt: number) {
 	elapsedTime += dt;
 	let j = 0;
 	for (let i = 0; i < particles.size(); i++) {
@@ -283,4 +283,15 @@ RunService.RenderStepped.Connect(dt => {
 			p.step(dt);
 		}
 	}
-});
+}
+
+coroutine.wrap(() => {
+	while (true) {
+		wait(1);
+		update(1);
+	}
+})();
+
+// RunService.RenderStepped.Connect(dt => {
+// 	update(dt);
+// });
