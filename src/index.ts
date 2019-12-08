@@ -5,6 +5,10 @@ const terrain = Workspace.Terrain;
 const raycastIgnore = Workspace.FindFirstChild("Ignore");
 
 type ProjectileConfig = Partial<{
+	position: Vector3;
+	velocity: Vector3;
+	acceleration: Vector3;
+
 	bounce: boolean;
 	canCollide: boolean;
 	color: Color3;
@@ -67,17 +71,38 @@ export class Projectile {
 	private onTouch?: (part: BasePart, position: Vector3, normal: Vector3) => void;
 
 	public constructor({
+		position,
+		velocity,
+		acceleration,
 		bounce = false,
 		canCollide = false,
 		color = new Color3(1, 1, 1),
 		life = 2,
 		maxRange = 5000,
 		minExitVelocity = 100,
-		onTouch,
 		physicsIgnore = [],
 		penetration = false,
 		resistance = 1,
+		onTouch,
 	}: ProjectileConfig) {
+		if (position) {
+			this.px = position.X;
+			this.py = position.Y;
+			this.pz = position.Z;
+		}
+
+		if (velocity) {
+			this.vx = velocity.X;
+			this.vy = velocity.Y;
+			this.vz = velocity.Z;
+		}
+
+		if (acceleration) {
+			this.ax = acceleration.X;
+			this.ay = acceleration.Y;
+			this.az = acceleration.Z;
+		}
+
 		this.bounce = bounce;
 		this.canCollide = canCollide;
 		this.color = color;
