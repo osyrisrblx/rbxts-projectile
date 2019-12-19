@@ -1,4 +1,5 @@
 import { IRenderer } from "../../Interfaces/IRenderer";
+import { Workspace } from "@rbxts/services";
 
 /**
  * Renders a mesh object as a projectile renderer
@@ -35,6 +36,7 @@ export class MeshRenderer implements IRenderer {
         meshPart.Anchored = true;
         meshPart.CanCollide = false;
         meshPart.Massless = true;
+        meshPart.Parent = Workspace;
 
         return meshPart;
     }
