@@ -15,12 +15,7 @@ export class PartRenderer implements IRenderer {
 	 * @param templatePart The base part to clone
 	 * @param offsetCFrame The offset CFrame to apply every frame - applied as following: `new CFrame(position, position.add(directionUnit)).mul(offsetCFrame)`
 	 */
-	public constructor(
-		templatePart: BasePart,
-		parent = Workspace,
-		physicsIgnore: ReadonlyArray<Instance> = [],
-		offsetCFrame?: CFrame,
-	) {
+	public constructor(templatePart: BasePart, parent = Workspace, offsetCFrame?: CFrame) {
 		this.templatePart = templatePart.Clone();
 		this.templatePart.Anchored = true;
 		this.templatePart.CanCollide = false;
@@ -29,7 +24,7 @@ export class PartRenderer implements IRenderer {
 
 		this.offsetCFrame = offsetCFrame || new CFrame();
 
-		this.physicsIgnore = [this.templatePart, ...physicsIgnore];
+		this.physicsIgnore = [this.templatePart];
 	}
 
 	public destroy() {
