@@ -31,7 +31,7 @@ export class Projectile {
 	 * The point in `Projectile.elapsedTime` that this projectile will die, whether or not it has hit something
 	 */
 	public readonly lifeTime: number;
-	
+
 	/**
 	 * The renderer for the projectile
 	 */
@@ -98,7 +98,7 @@ export class Projectile {
 
 		this.onTouch = config.onTouch;
 
-        this.renderer = renderer;
+		this.renderer = renderer;
 
 		Projectile.projectiles.push(this);
 	}

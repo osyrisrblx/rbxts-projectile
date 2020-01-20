@@ -10,37 +10,38 @@ const recyclables = new Array<CylinderHandleAdornment>();
  * Unless you _need_ a more specific renderer, this is highly encouraged!
  */
 export class CylinderRenderer implements IRenderer {
-    public readonly physicsIgnore: ReadonlyArray<Instance> = [];
+	public readonly physicsIgnore: ReadonlyArray<Instance> = [];
 
-    private cylinderHandleAdornment: CylinderHandleAdornment;
-    private previousPosition?: Vector3;
+	private cylinderHandleAdornment: CylinderHandleAdornment;
+	private previousPosition?: Vector3;
 
-    public constructor(color: Color3, radius?: number) {
-        this.cylinderHandleAdornment = CylinderRenderer.createCylinderAdornment(color, radius);
-    }
+	public constructor(color: Color3, radius?: number) {
+		this.cylinderHandleAdornment = CylinderRenderer.createCylinderAdornment(color, radius);
+	}
 
-    public destroy() {
-        this.cylinderHandleAdornment.Adornee = undefined;
-        recyclables.push(this.cylinderHandleAdornment);
-    }
+	private static createCylinderAdornment(color: Color3, radius?: number) {
+		const line = recyclables.pop() || new Instance("CylinderHandleAdornment");
+		line.Parent = Workspace.Terrain;
+		line.Adornee = Workspace.Terrain;
+		line.Color3 = color;
+		line.Radius = radius !== undefined ? radius : DEFAULT_RADIUS;
+		return line;
+	}
 
-    public render(position: Vector3, directionUnit: Vector3) {
-        if (this.previousPosition !== undefined) {
-            const length = position.sub(this.previousPosition).Magnitude;
+	public destroy() {
+		this.cylinderHandleAdornment.Adornee = undefined;
+		recyclables.push(this.cylinderHandleAdornment);
+	}
 
-            this.cylinderHandleAdornment.Height = length;
-            this.cylinderHandleAdornment.CFrame = new CFrame(position, position.add(directionUnit)).mul(new CFrame(0, 0, -length / 2));
-        }
+	public render(position: Vector3, directionUnit: Vector3) {
+		if (this.previousPosition !== undefined) {
+			const length = position.sub(this.previousPosition).Magnitude;
 
-        this.previousPosition = position;
-    }
-
-    private static createCylinderAdornment(color: Color3, radius?: number) {
-        const line = recyclables.pop() || new Instance("CylinderHandleAdornment");
-        line.Parent = Workspace.Terrain;
-        line.Adornee = Workspace.Terrain;
-        line.Color3 = color;
-        line.Radius = radius !== undefined ? radius : DEFAULT_RADIUS;
-        return line;
-    }
+			this.cylinderHandleAdornment.Height = length;
+			this.cylinderHandleAdornment.CFrame = new CFrame(position, position.add(directionUnit)).mul(
+				new CFrame(0, 0, -length / 2),
+			);
+		}
+		this.previousPosition = position;
+	}
 }

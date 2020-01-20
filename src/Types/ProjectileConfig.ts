@@ -19,7 +19,6 @@ export type ProjectileConfig = {
 	 */
 	acceleration: Vector3;
 } & Partial<{
-
 	/**
 	 * Whether the projectile should bounce
 	 * Defaults to false
@@ -49,13 +48,13 @@ export type ProjectileConfig = {
 	 * Defaults to 100
 	 */
 	minExitVelocity?: number;
-	
+
 	/**
 	 * Whether the projectile can penetrate through objects in the world
 	 * Defaults to false
 	 */
 	penetration?: boolean;
-	
+
 	/**
 	 * The list of Instances (and their descendants) to ignore during all physics calculations
 	 * Defaults to an empty array
@@ -72,7 +71,7 @@ export type ProjectileConfig = {
 	 * The renderer for the projectile
 	 * Defaults to a white CylinderRenderer
 	 */
-	renderer?: IRenderer; 
+	renderer?: IRenderer;
 
 	/**
 	 * An optional callback function for when the projectile collides with a part not in its physicsIgnore

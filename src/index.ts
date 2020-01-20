@@ -1,9 +1,10 @@
 // Classes
-export * from "./Implementation/Renderers/CylinderRenderer";
-export * from "./Implementation/Projectile";
+export { CylinderRenderer } from "./Implementation/Renderers/CylinderRenderer";
+export { MeshRenderer } from "./Implementation/Renderers/MeshRenderer";
+export { Projectile } from "./Implementation/Projectile";
 
 // Interfaces
-export * from "./Interfaces/IRenderer";
+export { IRenderer } from "./Interfaces/IRenderer";
 
 // Types
-export * from "./Types/ProjectileConfig";
+export { ProjectileConfig } from "./Types/ProjectileConfig";
