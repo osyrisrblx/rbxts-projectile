@@ -10,9 +10,8 @@ TODO:
 Simple demo:
 ```TS
 // main.client.ts
-
 import { Players } from "@rbxts/services";
-import { Projectile } from "shared/Projectile";
+import { Projectile } from "@rbxts/projectile";
 
 const SHOT_COUNT = 3;
 const MIN_SPREAD_ANGLE = math.rad(0);
