@@ -2,17 +2,56 @@
 
 WIP projectile package
 
-Creates CylinderHandleAdornment objects in Workspace.Terrain
+Create a projectile using the following options:
 
-TODO:
-	- allow for models for stuff like grenades, etc.
+## **Required**
+
+### `position: Vector3;`
+The initial position
+
+### `velocity: Vector3;`
+The initial velocity
+
+### `acceleration: Vector3;`
+The constant acceleration
+
+## **Optional**
+
+### `bounce?: boolean;` ( Defaults to false )
+Whether the projectile should bounce
+
+### `canCollide?: boolean;` ( Defaults to true )
+Whether the projectile can collide with other objects (whether it should check for collisions)
+
+### `life?: number;` ( Defaults to 2 )
+The maximum lifespan, in seconds, of the projectile
+
+### `maxRange?: number;` ( Defaults to 5000 )
+The maximum distance, in studs, that the projectile can travel
+
+### `minExitVelocity?: number;` ( Defaults to 100 )
+The minimum exit velocity of the projectile. If the calculated exit velocity in a penetration is less than this value, the projectile will be destroyed.
+
+### `penetration?: boolean;` ( Defaults to false )
+Whether the projectile can penetrate through objects in the world
+
+### `physicsIgnore?: Array<Instance>;` ( Defaults to an empty array )
+The list of Instances (and their descendants) to ignore during all physics calculations
+
+### `resistance?: number;` ( Defaults to 1 )
+The amount of resistance applied during a penetration
+
+### `renderer?: IRenderer;` ( Defaults to a white CylinderRenderer )
+The renderer for the projectile
+
+### `onTouch?: (part: BasePart, position: Vector3, normal: Vector3) => unknown;`
+An optional callback function for when the projectile collides with a part not in its physicsIgnore
 
 Simple demo:
 ```TS
 // main.client.ts
-
+import { CylinderRenderer, Projectile } from "@rbxts/projectile";
 import { Players } from "@rbxts/services";
-import { Projectile } from "shared/Projectile";
 
 const SHOT_COUNT = 3;
 const MIN_SPREAD_ANGLE = math.rad(0);
@@ -47,13 +86,15 @@ mouse.Button1Down.Connect(() => {
 			new Projectile({
 				position,
 				velocity,
-				color: Color3.fromHSV(math.random(), 1, 1),
-				life: 4,
-				bounce: true,
 				acceleration: new Vector3(0, -50, 0),
-				physicsIgnore: [character],
+
+				bounce: true,
+				life: 4,
+				minExitVelocity: 50,
 				penetration: true,
-				minExitVelocity: 50
+				physicsIgnore: [character],
+
+				renderer: new CylinderRenderer(Color3.fromHSV(math.random(), 1, 1)),
 			});
 		}
 		wait(1 / 30);
