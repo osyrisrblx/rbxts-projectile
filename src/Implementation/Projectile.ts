@@ -198,7 +198,10 @@ export class Projectile {
 					}
 				}
 
-				if (this.onTouch && this.onTouch(part, pos, norm, new Vector3(this.vx, this.vy, this.vz)) === true) {
+				if (
+					this.onTouch &&
+					this.onTouch(part, pos, norm, new Vector3(this.vx, this.vy, this.vz).Unit) === true
+				) {
 					this.remove(true);
 					return;
 				}
