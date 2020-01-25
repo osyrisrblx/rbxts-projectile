@@ -44,7 +44,7 @@ The amount of resistance applied during a penetration
 ### `renderer?: IRenderer;` ( Defaults to a white CylinderRenderer )
 The renderer for the projectile
 
-### `onTouch?: (part: BasePart, position: Vector3, normal: Vector3) => unknown;`
+### `onTouch?: (part: BasePart, position: Vector3, surfaceNormal: Vector3, collisionNormal: Vector3) => unknown;`
 An optional callback function for when the projectile collides with a part not in its physicsIgnore
 
 Simple demo:
