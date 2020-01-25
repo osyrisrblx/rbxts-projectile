@@ -75,6 +75,11 @@ export type ProjectileConfig = {
 
 	/**
 	 * An optional callback function for when the projectile collides with a part not in its physicsIgnore
+	 * @param part The part that was collided with by the projectile
+	 * @param position The position of the collision with the part and the projectile
+	 * @param surfaceNormal The normal of the surface that the projectile collided with
+	 * @param collisionNormal The negative unit vector of the velocity of the projectile at the time of collision
+	 * @returns A boolean indicating whether the projectile should be removed
 	 */
-	onTouch?: (part: BasePart, position: Vector3, normal: Vector3) => unknown;
+	onTouch?: (part: BasePart, position: Vector3, surfaceNormal: Vector3, collisionNormal: Vector3) => boolean;
 }>;
