@@ -1,7 +1,9 @@
 import { ProjectileConfig } from "../Types/ProjectileConfig";
 import { IRenderer } from "../Interfaces/IRenderer";
-import { Workspace, RunService } from "@rbxts/services";
 import { CylinderRenderer } from "./Renderers/CylinderRenderer";
+
+const Workspace = game.GetService("Workspace");
+const RunService = game.GetService("RunService");
 
 /**
  * A projectile that simulates physical interactions with the world according to the given configuration

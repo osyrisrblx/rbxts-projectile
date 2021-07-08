@@ -1,5 +1,6 @@
 import { IRenderer } from "../../Interfaces/IRenderer";
-import { Workspace } from "@rbxts/services";
+
+const Workspace = game.GetService("Workspace");
 
 const DEFAULT_RADIUS = 0.05;
 

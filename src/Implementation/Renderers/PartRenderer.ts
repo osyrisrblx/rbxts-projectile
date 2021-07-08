@@ -1,5 +1,6 @@
 import { IRenderer } from "../../Interfaces/IRenderer";
-import { Workspace } from "@rbxts/services";
+
+const Workspace = game.GetService("Workspace");
 
 /**
  * Renders a BasePart object as a projectile renderer
