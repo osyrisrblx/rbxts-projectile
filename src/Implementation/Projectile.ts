@@ -58,7 +58,7 @@ export class Projectile {
 	private maxRangeSq: number;
 	private minExitVelocity: number;
 	private penetration: boolean;
-	private physicsIgnore: Array<Instance>;
+	private raycastParams: RaycastParams;
 	private resistance: number;
 
 	private onTouch: ProjectileConfig["onTouch"];
@@ -72,7 +72,6 @@ export class Projectile {
 			maxRange = 5000,
 			minExitVelocity = 100,
 			penetration = false,
-			physicsIgnore = [],
 			renderer = new CylinderRenderer(new Color3(1, 1, 1)),
 			resistance = 1,
 		} = config;
@@ -94,7 +93,9 @@ export class Projectile {
 		this.lifeTime = Projectile.elapsedTime + life;
 		this.maxRangeSq = maxRange ** 2;
 		this.minExitVelocity = minExitVelocity;
-		this.physicsIgnore = [...Projectile.globalPhysicsIgnore, ...renderer.physicsIgnore, ...physicsIgnore];
+
+		this.raycastParams = new RaycastParams();
+		this.raycastParams.FilterDescendantsInstances = [...Projectile.globalPhysicsIgnore, ...renderer.physicsIgnore, ...this.raycastParams.FilterDescendantsInstances]
 		this.penetration = penetration;
 		this.resistance = resistance;
 
@@ -128,8 +129,12 @@ export class Projectile {
 		});
 	}
 
-	private static raycast(start: Vector3, direction: Vector3, ignore: Array<Instance>) {
-		return Workspace.FindPartOnRayWithIgnoreList(new Ray(start, direction), ignore, false, true);
+	private static raycast(start: Vector3, direction: Vector3, RaycastParameters: RaycastParams)  {
+		const RayResult = Workspace.Raycast(start, direction, RaycastParameters)
+		if (RayResult)
+			return [RayResult.Instance, RayResult.Position, RayResult.Normal, RayResult.Material] as LuaTuple<[BasePart | undefined, Vector3, Vector3, Enum.Material]>;
+		else
+			return [undefined, start.add(direction), new Vector3(0, 1, 0), Enum.Material.Air] as LuaTuple<[BasePart | undefined, Vector3, Vector3, Enum.Material]>;
 	}
 
 	/**
@@ -160,14 +165,14 @@ export class Projectile {
 		if (this.canCollide && (dx !== 0 || dy !== 0 || dz !== 0)) {
 			const dir = new Vector3(dx, dy, dz);
 			const startPos = new Vector3(this.px, this.py, this.pz);
-			const [part, pos, norm] = Projectile.raycast(startPos, dir, this.physicsIgnore);
+			const [part, pos, norm] = Projectile.raycast(startPos, dir, this.raycastParams);
 			if (part) {
 				let didPenetrate = false;
 				if (this.penetration) {
 					const unitDir = dir.Unit;
 					const exitDir = unitDir.mul(part.Size.Magnitude);
-					const [, nextPos] = Projectile.raycast(pos, exitDir, this.physicsIgnore);
-					const [, exit] = Projectile.raycast(nextPos, exitDir.mul(-1), this.physicsIgnore);
+					const [, nextPos] = Projectile.raycast(pos, exitDir, this.raycastParams);
+					const [, exit] = Projectile.raycast(nextPos, exitDir.mul(-1), this.raycastParams);
 					const distance = unitDir.Dot(exit.sub(pos));
 					if (distance > 0) {
 						const currentVelocity = new Vector3(vxOrig, vyOrig, vzOrig).Magnitude;

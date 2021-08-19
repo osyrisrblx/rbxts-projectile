@@ -61,6 +61,8 @@ export type ProjectileConfig = {
 	 */
 	physicsIgnore?: Array<Instance>;
 
+	raycastParams?: RaycastParams;
+
 	/**
 	 * The amount of resistance applied during a penetration
 	 * Defaults to 1
